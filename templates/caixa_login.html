@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define idioma, codificação e ajuste da tela para celular. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Nome mostrado na aba do navegador. -->
+    <title>Caixa - Hamburgueria Real</title>
+    <!-- Carrega os estilos usados na tela de login do caixa. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+
+<body>
+    <!-- Caixa visual que centraliza o formulário protegido do caixa. -->
+    <div class="pagina-inicial tela-caixa-login">
+        <h1>Acesso do Caixa</h1>
+        <!-- Jinja exibe o erro apenas quando a rota Flask envia essa variável. -->
+        {% if erro %}
+            <p class="mensagem-erro">{{ erro }}</p>
+        {% endif %}
+        <!-- POST envia a senha à função caixa_login() para validação. -->
+        <form method="POST" action="{{ url_for('caixa_login') }}">
+            <div class="input-group">
+                <label for="senha">Senha do caixa:</label>
+                <div class="input-container">
+                    <!-- type=password esconde os caracteres; name informa o campo ao Flask. -->
+                    <input type="password" id="senha" name="senha" class="user-input" required autocomplete="current-password">
+                </div>
+            </div>
+            <!-- Envia a senha digitada para o servidor. -->
+            <button type="submit" class="btn-cadastrar">Entrar</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+# Flask recebe as requisições do navegador, executa as rotas e monta as páginas.
+Flask>=3.1,<4
+# Integra o ORM SQLAlchemy à aplicação Flask para consultar e gravar modelos.
+Flask-SQLAlchemy>=3.1,<4
+# Gera os códigos QR; [pil] instala a biblioteca de imagem necessária para criar PNG.
+qrcode[pil]>=8,<9

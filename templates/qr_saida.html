@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define idioma, codificação e compatibilidade com telas pequenas. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Nome mostrado na aba do navegador. -->
+    <title>QR de saída - Hamburgueria Real</title>
+    <!-- Carrega estilos que enquadram e dimensionam o QR. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+
+<body>
+    <!-- Caixa que apresenta o QR e a mesa correspondente. -->
+    <div class="pagina-inicial tela-qr">
+        <h1>QR de saída</h1>
+        {% if mesa == "Para viagem" %}
+            <p class="subtitulo-pagina">Pedido para viagem</p>
+        {% else %}
+            <p class="subtitulo-pagina">Mesa {{ mesa }}</p>
+        {% endif %}
+        <div class="qr-moldura">
+            <!-- Base64 é o texto gerado no Python; data:image/png informa ao navegador que ele representa uma imagem PNG. -->
+            <img src="data:image/png;base64,{{ imagem_qr }}" alt="QR code individual para registrar a saída">
+        </div>
+        <p class="texto-apoio">
+        <!-- A mensagem muda conforme o QR foi criado pelo pagamento online ou pelo caixa. -->
+        {% if online %}
+            Pagamento online registrado no modo de demonstração. Apresente este QR na saída.
+        {% else %}
+            Pagamento presencial registrado. Entregue este QR ao cliente para apresentar na saída.
+        {% endif %}
+        </p>
+        <!-- Cada tipo de usuário recebe um link de retorno adequado ao seu fluxo. -->
+        {% if online %}
+            <a href="/">Voltar ao início</a>
+        {% else %}
+            <a href="{{ url_for('caixa_atendimentos') }}">Voltar aos atendimentos do caixa</a>
+        {% endif %}
+    </div>
+</body>
+
+</html>

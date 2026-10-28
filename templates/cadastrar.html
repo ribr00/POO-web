@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define a codificação de texto e o idioma da página. -->
+    <meta charset="UTF-8">
+    <!-- Faz o formulário caber na tela de celulares. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Nome exibido na aba do navegador. -->
+    <title>HAMBURGUERIA REAL</title>
+
+    <!-- Carrega os estilos visuais compartilhados pelo site. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+
+    <!-- Conecta às fontes que o site usa nos títulos e textos. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Importa as famílias de fontes para o visual da página. -->
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Righteous&family=Righteous:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+    <!-- Caixa que centraliza o formulário e mantém o estilo das outras páginas. -->
+    <div class="pagina-inicial">
+        <!-- Informa que esta é a tela para novos clientes. -->
+        <h1>Primeiro acesso</h1>
+
+        <!-- POST envia os dados digitados à rota /CADASTRAR do app.py; os nomes dos campos devem coincidir com request.form. -->
+   <form method="POST" action="/CADASTRAR">
+
+    <!-- Agrupa o rótulo e a caixa de texto do nome. -->
+    <div class="input-group">
+        <!-- O for conecta o texto "Nome" à caixa de texto com id="nome". -->
+        <label for="nome">Nome:</label>
+        
+        <!-- Container usado pelo CSS para desenhar a caixa arredondada. -->
+        <div class="input-container">
+            <!-- A pessoa digita o nome; name="nome" é a chave usada pelo Flask para ler o valor. -->
+            <!-- required impede o envio do formulário vazio pelo navegador. -->
+            <input type="text" id="nome" name="nome" class="user-input" placeholder="Digite seu nome completo" required>
+            <!-- Ícone decorativo exibido ao lado do campo. -->
+            <span class="input-icon">👤</span>
+        </div>
+    </div>
+
+    <!-- Campo de telefone, organizado da mesma forma que o campo de nome. -->
+    <div class="input-group">
+        <label for="telefone">Telefone:</label>
+        <div class="input-container">
+            <!-- type="tel" pode mostrar teclado de telefone nos celulares. -->
+            <!-- O name="telefone" permite ao Flask encontrar o campo enviado. -->
+            <input type="tel" id="telefone" name="telefone" class="user-input" placeholder="(00) 00000-0000" required>
+            <span class="input-icon">📞</span>
+        </div>
+    </div>
+
+    <!-- Campo que pede o CPF que será usado para identificar o cadastro. -->
+    <div class="input-group">
+        <label for="cpf">CPF:</label>
+        <div class="input-container">
+            <!-- O Flask recebe este valor pelo nome "cpf". -->
+            <input type="text" id="cpf" name="cpf" class="user-input" placeholder="000.000.000-00" required>
+            <span class="input-icon">🆔</span>
+        </div>
+    </div>
+
+    <!-- Envia todos os campos do formulário para o Python salvar o cliente. -->
+    <button type="submit" class="btn-cadastrar">Cadastrar</button>
+</form>
+
+        <!-- Link para voltar à tela inicial sem cadastrar. -->
+        <a href="/">Voltar</a>
+    </div>
+</body>

@@ -1,0 +1,836 @@
+/*
+    GUIA RÁPIDO PARA LER ESTE CSS:
+    - Um seletor, como .pagina-inicial, escolhe quais elementos serão estilizados.
+    - O ponto antes do nome indica uma classe que também aparece no HTML.
+    - As linhas entre chaves são as regras aplicadas a esses elementos.
+    - O nome da classe no HTML e o seletor com ponto no CSS precisam combinar.
+    - color muda a cor do texto; background-color muda a cor do fundo.
+    - width/max-width controlam largura; height/min-height controlam altura.
+    - margin cria espaço do lado de fora; padding cria espaço dentro do elemento.
+    - display escolhe como organizar os elementos; flex-direction muda a direção.
+    - justify-content alinha no eixo principal; align-items alinha no outro eixo.
+    - gap cria espaço entre elementos; border desenha uma borda ao redor.
+    - border-radius arredonda cantos; box-shadow cria uma sombra.
+    - font-family escolhe a fonte; font-size escolhe o tamanho; font-weight escolhe o peso.
+    - :hover aplica estilo ao passar o mouse; :focus aplica estilo ao selecionar um campo.
+    - @media aplica regras diferentes quando a tela tem determinado tamanho.
+    - var(--nome) usa uma cor guardada nas variáveis definidas em :root.
+*/
+
+/* Faz largura e altura incluírem bordas e espaços internos, evitando caixas maiores que a tela. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* Variáveis guardam as cores do projeto para reaproveitá-las no arquivo. */
+    --bege: #e0d2b7;
+    --vermelho: #53170f;
+    --marrom: #3f2d1e;
+    --caramelo: #af7343e7;
+    --azul: #2a80d6;
+    --pao: #d4b895;
+    --garçom: #d6602a;
+}
+
+/* Estilo geral do documento: remove margens, centraliza o conteúdo e define fundo e fonte. */
+body {
+    /* Remove o espaço padrão que o navegador colocaria ao redor da página. */
+    margin: 0;
+    /* Garante uma altura mínima, mesmo quando a página tem pouco conteúdo. */
+    min-height: 90vh;
+
+    /* Usa a cor bege definida no começo do arquivo. */
+    background-color: var(--bege);
+    /* Define a cor padrão dos textos. */
+    color: var(--marrom);
+
+    /* Usa Flexbox para alinhar o conteúdo no centro da tela. */
+    display: flex;
+    /* Centraliza o conteúdo no eixo horizontal. */
+    justify-content: center;
+    /* Centraliza o conteúdo no eixo vertical. */
+    align-items: center;
+
+    /* Define Poppins como fonte principal; sans-serif é alternativa do sistema. */
+    font-family:  'Poppins', sans-serif;
+}
+
+/* Cartão principal que envolve o conteúdo de cada página. */
+.pagina-inicial {
+    /* Cor do fundo do cartão. */
+    background-color: var(--pao);
+
+    /* Ocupa 90% da largura disponível, sem passar de 600 pixels. */
+    width: 90%;
+    max-width: 600px;
+
+    /* Espaço entre a borda do cartão e seu conteúdo. */
+    padding: 50px 40px;
+
+    /* Centraliza o texto dentro do cartão. */
+    text-align: center;
+
+    /* Arredonda os cantos do cartão. */
+    border-radius: 15px;
+    /* Desenha uma borda escura ao redor. */
+    border: 4px solid var(--marrom);
+    /* Cria uma sombra para destacar o cartão do fundo. */
+    box-shadow: 1px 3px 1px var(--marrom);
+}
+
+/* Mantém o cartão da página inicial confortável em monitores maiores. */
+.tela-inicial {
+    margin: 24px auto;
+}
+
+/* Ajusta o cartão de atendimento sem afetar as outras páginas. */
+.tela-atendimento {
+    box-sizing: border-box;
+    margin: 24px auto;
+    max-width: 600px;
+    min-width: 0;
+    width: min(90%, 600px);
+}
+
+/* A comanda usa uma largura controlada para caber em telas grandes e pequenas. */
+.tela-comanda {
+    max-width: 760px;
+    min-width: 0;
+    width: min(100%, 760px);
+    padding: clamp(20px, 4vw, 40px);
+}
+
+/* Impede que os campos ou grupos alarguem a comanda além do cartão. */
+.tela-comanda form,
+.tela-comanda .grupo-categoria,
+.tela-comanda .item,
+.tela-comanda .item-selecionar,
+.tela-comanda .input-container {
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* Título principal: usa fonte decorativa, cor vinho e tamanho grande. */
+h1 {
+    /* Esta é a mesma fonte decorativa carregada nas páginas que usam títulos h1. */
+    font-family: 'Fascinate Inline', sans-serif;
+    color: var(--vermelho);
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+/* Parágrafos gerais: define aparência padrão para textos explicativos. */
+p {
+    font-family: 'Righteous', sans-serif;
+    font-size: 22px;
+    margin: 10px;
+}
+
+/* Grupo de botões da página inicial. */
+.botoes {
+    /* Ativa Flexbox para organizar os botões. */
+    display: flex;
+    /* Coloca os botões um abaixo do outro. */
+    flex-direction: column;
+    /* Centraliza os botões na largura disponível. */
+    align-items: center;
+
+    /* Espaço entre um botão e o próximo. */
+    gap: 15px;
+
+    /* Espaço antes do grupo de botões. */
+    margin-top: 30px;
+}
+
+/* Aparência dos botões que estão dentro do grupo da página inicial. */
+.botoes button {
+    /* Largura fixa para manter os botões alinhados. */
+    width: 280px;
+
+    /* Espaço interno entre o texto do botão e suas bordas. */
+    padding: 14px;
+
+    /* Fundo caramelo e texto vinho. */
+    background-color: var(--caramelo);
+    color: var(--vermelho);
+
+    /* Remove a borda padrão e arredonda os cantos. */
+    border: none;
+    border-radius: 8px;
+
+    /* Define fonte, tamanho e peso do texto. */
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+
+
+    /* Mostra a mão para indicar que o botão pode ser clicado. */
+    cursor: pointer;
+}
+
+/* Aparência do botão quando o mouse passa por cima. */
+.botoes button:hover {
+    /* Mantém o fundo caramelo durante o efeito de passar o mouse. */
+    background-color: var(--caramelo);
+}
+
+/* Aparência do botão enquanto o usuário está clicando nele. */
+.botoes button:active {
+    background-color: var(--marrom);
+    color: var(--bege);
+    transform: translateY(2px);
+    box-shadow: 1px 2px 1px var(--marrom);
+}
+
+/* Organiza os campos de entrada, deixando espaço abaixo e rótulo alinhado à esquerda. */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Rótulos dos campos: aparecem em linha própria, menores e destacados. */
+.input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--marrom);
+    margin-bottom: 6px;
+    margin-left: 4px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Caixa que envolve o campo e o ícone; fundo branco, borda e formato arredondado. */
+.input-container {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff; /* Fundo branco para destacar */
+    border: 2px solid var(--marrom);
+    border-radius: 50px; /* Deixa as bordas redondas tipo pílula */
+    padding: 10px 18px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* Faz a troca de cor ser suave */
+}
+
+/* Destaca a caixa quando o campo que está dentro recebe o foco do teclado. */
+.input-container:focus-within {
+    border-color: var(--vermelho);
+    box-shadow: 0 0 8px rgba(83, 23, 15, 0.2);
+}
+
+/* Aparência dos campos de texto dentro das caixas arredondadas. */
+.user-input {
+    /* O campo ocupa o espaço que sobrar dentro da caixa junto do ícone. */
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 15px;
+    color: var(--marrom);
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Cor mais clara do texto de exemplo que aparece antes de digitar. */
+.user-input::placeholder {
+    color: #a89f91;
+}
+
+/* Centraliza o ícone e separa-o do texto digitado. */
+.input-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+/* Botão principal usado para enviar formulários. */
+.btn-cadastrar {
+    /* Botão de largura total; a tela de atendimento também o ajusta em celular. */
+    width: 100%;
+    background-color: var(--vermelho);
+    color: var(--bege);
+    border: 2px solid var(--marrom);
+    border-radius: 50px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Muda as cores do botão principal quando o mouse passa sobre ele. */
+.btn-cadastrar:hover {
+    background-color: var(--caramelo);
+    color: var(--marrom);
+}
+
+/* Diminui levemente o botão enquanto ele está sendo clicado. */
+.btn-cadastrar:active {
+    transform: scale(0.98);
+}
+
+/* Links dentro do cartão: cor, espaçamento e remoção do sublinhado padrão. */
+.pagina-inicial a {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--vermelho);
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Volta a sublinhar o link quando o mouse passa por cima. */
+.pagina-inicial a:hover {
+    text-decoration: underline;
+}
+
+/* Caixa de mensagem de confirmação do atendimento presencial. */
+.mensagem-sucesso {
+    background-color: rgba(42, 128, 214, 0.1); /* Um fundo azulado bem suave */
+    border: 2px dashed var(--azul);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mensagem-sucesso p {
+    /* Texto da confirmação em tamanho menor e fonte fácil de ler. */
+    color: var(--marrom);
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+/* Agrupa produtos da mesma categoria; a cor fica nos cartões individuais abaixo. */
+.grupo-categoria {
+    background-color: transparent;
+    margin: 18px 0;
+    padding: 0;
+    text-align: left;
+}
+
+/* O nome da categoria aparece uma vez no topo do grupo. */
+.titulo-categoria {
+    border-bottom: 2px solid rgba(63, 45, 30, 0.2);
+    color: var(--vermelho);
+    font-family: 'Righteous', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.4px;
+    margin: 0 0 6px;
+    padding: 4px 2px 10px;
+    text-align: left;
+}
+
+/* Cada produto vira um cartão com a cor marrom translúcida pedida. */
+.item {
+    background-color: #6631059a;
+    border: 1px solid rgba(63, 45, 30, 0.25);
+    border-radius: 8px;
+    margin: 8px 0;
+    padding: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Mantém o fundo pedido e destaca a borda quando o produto está no pedido. */
+.item.selecionado {
+    border-color: var(--vermelho);
+    box-shadow: 0 2px 8px rgba(63, 45, 30, 0.2);
+}
+
+/* Botão transparente: deixa aparecer o fundo do cartão e alinha nome/preço. */
+.item-selecionar {
+    background: transparent;
+    border: 0;
+    align-items: flex-start;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    gap: 12px;
+    justify-content: space-between;
+    padding: 7px 4px;
+    text-align: left;
+    width: 100%;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item-selecionar:focus-visible {
+    /* Contorno visível para quem navega com teclado. */
+    border-radius: 8px;
+    outline: 3px solid var(--caramelo);
+    outline-offset: 2px;
+}
+
+.item-selecionar:hover .item-nome {
+    /* Mostra que a linha pode ser clicada. */
+    color: var(--vermelho);
+}
+
+.item-nome {
+    color: var(--marrom);
+    font-size: 16px;
+    transition: color 0.2s ease;
+    overflow-wrap: anywhere;
+}
+
+.item-descricao {
+    color: var(--marrom);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.item-preco {
+    color: var(--vermelho);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Mensagem aparece somente quando a quantidade é maior que zero. */
+.item-status {
+    color: var(--vermelho);
+    display: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 5px 0 0;
+    text-align: center;
+}
+
+.item.selecionado .item-status {
+    display: block;
+}
+
+/* Centraliza observação e quantidade abaixo das informações do produto. */
+.item-controles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+/* Campo para o cliente escrever observações do produto. */
+.input-obs {
+    padding: 6px 9px;
+    border: 1px solid var(--marrom);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    background-color: #f8fafc;
+    color: var(--marrom);
+    width: min(180px, 65%);
+    transition: border-color 0.2s ease;
+}
+
+.input-obs:focus {
+    /* Destaca o campo de observação quando o cliente começa a digitar. */
+    border-color: var(--vermelho);
+    background-color: #ffffff;
+}
+
+/* Caixa numérica usada para escolher quantas unidades pedir. */
+.input-qtd {
+    width: 52px;
+    padding: 6px;
+    border: 1px solid var(--marrom);
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    background-color: #f8fafc;
+    color: var(--marrom);
+    transition: border-color 0.2s ease;
+}
+
+.input-qtd:focus {
+    /* Destaca o campo de quantidade quando ele está selecionado. */
+    border-color: var(--vermelho);
+    background-color: #ffffff;
+}
+
+/* Todas estas telas ficam um pouco mais largas para acomodar seus cartões. */
+.tela-pagamento,
+.tela-caixa,
+.tela-caixa-login,
+.tela-qr,
+.tela-saida {
+    /* Define uma largura máxima comum sem impedir que o cartão encolha. */
+    max-width: 680px;
+}
+
+/* Subtítulo informa o contexto, como número da mesa ou do pedido. */
+.subtitulo-pagina {
+    /* Mantém o texto escuro, maior que o corpo e com espaço abaixo. */
+    color: var(--marrom);
+    font-size: 20px;
+    margin: 0 0 24px;
+}
+
+/* Texto explicativo das telas novas, com leitura confortável. */
+.texto-apoio {
+    /* Define cor, fonte, tamanho, altura de linha e espaçamento externo. */
+    color: var(--marrom);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 20px 0;
+}
+
+/* Cartão claro que agrupa os itens e o valor da conta. */
+.resumo-pedido {
+    /* Define fundo claro, borda, cantos arredondados, margens e espaço interno. */
+    background-color: #fffaf2;
+    border: 2px solid var(--marrom);
+    border-radius: 14px;
+    margin: 24px 0;
+    padding: 18px 22px;
+    text-align: left;
+}
+
+/* Cada item e o total usam Flexbox para pôr descrição e preço nas extremidades. */
+.linha-pedido,
+.linha-total {
+    /* Alinha verticalmente, separa colunas e distribui o conteúdo. */
+    align-items: center;
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+/* Separa visualmente cada produto do seguinte com uma linha fina. */
+.linha-pedido {
+    border-bottom: 1px solid rgba(63, 45, 30, 0.18);
+    font-size: 15px;
+}
+
+/* Não quebra os preços em duas linhas, mesmo em telas estreitas. */
+.linha-pedido strong {
+    white-space: nowrap;
+}
+
+/* Realça o total com texto vinho e maior espaço acima. */
+.linha-total {
+    color: var(--vermelho);
+    font-size: 20px;
+    padding-bottom: 0;
+    padding-top: 16px;
+}
+
+/* Na página de pagamento, o seletor usa cantos menos redondos que os campos comuns. */
+.tela-pagamento .input-container {
+    border-radius: 12px;
+}
+
+/* Garante espaço vertical mínimo no seletor e no campo de senha. */
+.tela-pagamento select,
+.tela-caixa-login input {
+    min-height: 28px;
+}
+
+/* Cartão individual que mostra cada mesa aguardando pagamento presencial. */
+.cartao-atendimento {
+    /* Alinha mesa e botão, com fundo claro, borda e destaque laranja lateral. */
+    align-items: center;
+    background-color: #fffaf2;
+    border: 2px solid var(--marrom);
+    border-left: 8px solid var(--garçom);
+    border-radius: 14px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin: 18px 0;
+    padding: 20px;
+    text-align: left;
+}
+
+/* Destaca o número da mesa dentro do cartão de atendimento. */
+.cartao-atendimento h2 {
+    color: var(--vermelho);
+    font-family: 'Righteous', sans-serif;
+    font-size: 24px;
+    margin: 0;
+}
+
+/* Texto da situação da mesa, com capitalização visual. */
+.cartao-atendimento .status-atendimento {
+    color: var(--marrom);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin: 6px 0 0;
+    text-transform: capitalize;
+}
+
+/* Reserva espaço adequado ao formulário e botão de pagamento. */
+.cartao-atendimento form {
+    flex: 0 1 270px;
+}
+
+/* Botão secundário transparente para a ação de sair do caixa. */
+.btn-secundario {
+    background-color: transparent;
+    color: var(--vermelho);
+    margin-top: 24px;
+}
+
+/* Caixa tracejada que aparece quando não existem atendimentos esperando. */
+.estado-vazio {
+    background-color: #fffaf2;
+    border: 1px dashed var(--marrom);
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 24px 0;
+    padding: 20px;
+}
+
+/* Caixa vermelha usada para mostrar erros no login do caixa. */
+.mensagem-erro {
+    background-color: #fff0ed;
+    border: 1px solid #a52b1e;
+    border-radius: 10px;
+    color: #8c2016;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+}
+
+/* Fundo branco e moldura que separam o QR dos outros conteúdos. */
+.qr-moldura {
+    align-items: center;
+    background-color: #ffffff;
+    border: 3px solid var(--marrom);
+    border-radius: 18px;
+    display: inline-flex;
+    justify-content: center;
+    margin: 8px auto 16px;
+    padding: 16px;
+}
+
+/* Define o tamanho do QR e evita borrar os quadrados ao redimensionar. */
+.qr-moldura img {
+    display: block;
+    height: auto;
+    image-rendering: pixelated;
+    max-width: min(100%, 300px);
+    width: 260px;
+}
+
+/* Círculo verde com marca de confirmação depois que a saída é registrada. */
+.icone-saida {
+    /* Flexbox centraliza o sinal; dimensões, fonte, fundo e borda formam o círculo. */
+    align-items: center;
+    background-color: #e4f2df;
+    border: 3px solid #49733d;
+    border-radius: 50%;
+    color: #315c27;
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+    height: 90px;
+    justify-content: center;
+    margin: 0 auto 20px;
+    width: 90px;
+}
+
+/* Regras especiais para celulares e janelas estreitas. */
+@media (max-width: 600px) {
+    /* Deixa a página rolar desde o topo em vez de centralizar um cartão alto e cortá-lo. */
+    body.pagina-atendimento {
+        align-items: flex-start;
+        min-height: 100vh;
+        min-height: 100svh;
+    }
+
+    /* Reduz as margens e o preenchimento lateral do cartão no celular. */
+    .tela-atendimento {
+        margin: 12px auto;
+        padding: 24px 16px;
+        width: calc(100% - 24px);
+    }
+
+    /* Faz o título comprido caber sem cortar as laterais. */
+    .tela-atendimento h1 {
+        font-size: clamp(28px, 8vw, 38px);
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+    }
+
+    /* Deixa a instrução e a mensagem de confirmação confortáveis para ler. */
+    .tela-atendimento > p,
+    .tela-atendimento .mensagem-sucesso p {
+        font-size: 17px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    /* Impede que o formulário, seletor e botão ultrapassem o cartão. */
+    .tela-atendimento form,
+    .tela-atendimento .input-group,
+    .tela-atendimento .input-container,
+    .tela-atendimento .btn-cadastrar {
+        box-sizing: border-box;
+        max-width: 100%;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .tela-atendimento .input-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .tela-atendimento select {
+        min-width: 0;
+    }
+
+    .tela-atendimento .btn-cadastrar {
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+        padding: 12px;
+    }
+
+    .tela-atendimento .mensagem-sucesso {
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 14px;
+    }
+
+    /* Dá espaço livre nas laterais da tela inicial em celulares. */
+    .tela-inicial {
+        margin: 12px auto;
+        padding: 22px 16px;
+        width: calc(100% - 24px);
+    }
+
+    /* Diminui o título decorativo para ele ocupar menos espaço na tela pequena. */
+    .tela-inicial h1 {
+        font-size: clamp(27px, 8vw, 32px);
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+    }
+
+    /* Deixa a mensagem de boas-vindas mais compacta no celular. */
+    .tela-inicial > p {
+        font-size: 18px;
+        line-height: 1.35;
+    }
+
+    /* Aproxima um pouco os botões para reduzir a altura total do cartão. */
+    .tela-inicial .botoes {
+        gap: 12px;
+        margin-top: 22px;
+    }
+
+    /* Limita botões e links à largura interna disponível no cartão. */
+    .tela-inicial .botoes,
+    .tela-inicial .botoes a,
+    .tela-inicial .botoes button {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .tela-inicial .botoes button {
+        padding: 12px;
+    }
+
+    /* Reduz margens e espaços da comanda para que ela caiba em celulares. */
+    .tela-comanda {
+        margin: 12px auto;
+        max-width: 100%;
+        padding: 24px 12px;
+        width: calc(100% - 24px);
+    }
+
+    /* Reduz o título grande da página de pedido em telas estreitas. */
+    .tela-comanda h1 {
+        font-size: clamp(30px, 9vw, 42px);
+        overflow-wrap: anywhere;
+    }
+
+    /* Mantém o nome e o preço alinhados sem estourar a largura do cartão. */
+    .tela-comanda .item-selecionar {
+        gap: 8px;
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .tela-comanda .item-nome {
+        font-size: 14px;
+        min-width: 0;
+    }
+
+    .tela-comanda .item-preco {
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    /* Deixa o campo de observação flexível junto com a quantidade no celular. */
+    .tela-comanda .input-obs {
+        min-width: 0;
+        width: min(180px, calc(100% - 68px));
+    }
+
+    /* Reduz o espaço interno dos cartões para aproveitar melhor a tela pequena. */
+    .tela-pagamento,
+    .tela-caixa,
+    .tela-caixa-login,
+    .tela-qr,
+    .tela-saida {
+        padding: 32px 22px;
+    }
+
+    /* Reduz os títulos sem deixá-los pequenos ou grandes demais. */
+    .tela-pagamento h1,
+    .tela-caixa h1,
+    .tela-caixa-login h1,
+    .tela-qr h1,
+    .tela-saida h1 {
+        font-size: clamp(32px, 9vw, 44px);
+    }
+
+    /* Empilha os dados da mesa e o botão para caber em uma coluna no celular. */
+    .cartao-atendimento {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* Permite que o formulário ocupe toda a largura disponível. */
+    .cartao-atendimento form {
+        flex-basis: auto;
+    }
+
+    /* Alinha o conteúdo no topo e reduz as linhas do resumo em telas estreitas. */
+    .linha-pedido,
+    .linha-total {
+        align-items: flex-start;
+        font-size: 14px;
+    }
+
+    /* Aproveita melhor a largura dos cartões de produto no celular. */
+    .input-obs {
+        width: min(180px, 70%);
+    }
+}

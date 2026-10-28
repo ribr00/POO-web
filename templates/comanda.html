@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define o idioma, a codificação e como a página se adapta ao celular. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título da aba do navegador. -->
+    <title>HAMBURGUERIA REAL - Comanda</title>
+    <!-- Carrega o arquivo de estilos compartilhado. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css', v=4) }}">
+</head>
+
+<body>
+    <!-- Caixa principal da tela do cardápio. -->
+    <div class="pagina-inicial tela-comanda">
+        <h1>Faça seu Pedido</h1>
+
+        <!-- POST envia tipo de pedido, mesa e quantidades para a rota /COMANDA. -->
+        <form method="POST" action="/COMANDA">
+
+            {% if not cliente %}
+                <div class="input-group">
+                    <label for="nome_pedido">Seu nome:</label>
+                    <div class="input-container">
+                        <input
+                            type="text"
+                            id="nome_pedido"
+                            name="nome_pedido"
+                            class="user-input"
+                            maxlength="100"
+                            placeholder="Digite seu nome"
+                            required
+                        >
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="input-group">
+                <label for="tipo_pedido">Como deseja receber?</label>
+                <div class="input-container">
+                    <select id="tipo_pedido" name="tipo_pedido" class="user-input" required>
+                        <option value="mesa">Consumo no local</option>
+                        <option value="viagem">Para viagem</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group" id="grupo-mesa">
+                <label for="mesa">Número da Mesa:</label>
+                <div class="input-container">
+                    <select id="mesa" name="mesa" class="user-input" required>
+                        <option value="">Selecione uma mesa livre</option>
+                        {% for mesa in mesas %}
+                            <option value="{{ mesa.id }}">Mesa {{ mesa.numero }} ({{ mesa.capacidade }} lugares)</option>
+                        {% endfor %}
+                    </select>
+                    <span class="input-icon">📍</span>
+                </div>
+                {% if not mesas %}
+                    <p>No momento, não há mesas livres. Escolha para viagem.</p>
+                {% endif %}
+            </div>
+
+            <!-- Linha decorativa que separa a escolha da mesa do cardápio. -->
+            <hr style="border: 1px dashed var(--marrom); margin: 25px 0; opacity: 0.5;">
+
+            <!-- Título do cardápio; o estilo em linha usa cores e fonte definidas no CSS. -->
+            <h2 style="font-family: 'Righteous', sans-serif; color: var(--vermelho); margin-bottom: 20px;">Cardápio</h2>
+
+            <!-- Cada grupo tem um único título de categoria e uma lista de produtos. -->
+            {% for titulo_categoria, itens_categoria in grupos_produtos %}
+                <section class="grupo-categoria">
+                    <!-- O Python já agrupou os produtos por categoria antes de abrir este template. -->
+                    <h3 class="titulo-categoria">{{ titulo_categoria }}</h3>
+
+                    {% for produto in itens_categoria %}
+                        <div class="item">
+                            <!-- Nome e preço ficam no botão para selecionar o produto com um clique. -->
+                            <button
+                                type="button"
+                                class="item-selecionar"
+                                data-quantidade-id="quantidade-{{ produto.id }}"
+                                data-nome-produto="{{ produto.nome }}"
+                                aria-label="Adicionar {{ produto.nome }} ao pedido"
+                            >
+                                <!-- Nome e ingredientes ficam juntos; o preço continua à direita. -->
+                                <span class="item-info">
+                                    <span class="item-nome">{{ produto.nome }}</span>
+                                    {% if produto.ingredientes %}
+                                        <span class="item-descricao">{{ produto.ingredientes }}</span>
+                                    {% endif %}
+                                </span>
+                                <span class="item-preco">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                            </button>
+
+                            <!-- O JavaScript mostra aqui a quantidade e destaca o cartão selecionado. -->
+                            <p class="item-status" aria-live="polite"></p>
+
+                            <!-- Campos que o cliente envia junto com este produto no formulário. -->
+                            <div class="item-controles">
+                                <!-- Observação opcional, ligada ao produto pelo ID do campo. -->
+                                <input
+                                    type="text"
+                                    name="obs_{{ produto.id }}"
+                                    placeholder="Ex: Sem cebola..."
+                                    class="input-obs"
+                                    aria-label="Observação para {{ produto.nome }}"
+                                >
+
+                                <!-- A quantidade também usa o ID para o Flask encontrar o produto certo. -->
+                                <input
+                                    type="number"
+                                    id="quantidade-{{ produto.id }}"
+                                    name="qtd_{{ produto.id }}"
+                                    min="0"
+                                    value="0"
+                                    class="input-qtd"
+                                    aria-label="Quantidade de {{ produto.nome }}"
+                                >
+                            </div>
+                        </div>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+
+            {% if produtos %}
+                <!-- Envia o pedido completo à rota /COMANDA. -->
+                <button type="submit" class="btn-cadastrar" style="margin-top: 20px;">Fazer pedido</button>
+            <!-- Se o cardápio está vazio, informa que não há produtos cadastrados. -->
+            {% else %}
+                <p>O cardápio ainda não tem produtos cadastrados.</p>
+            {% endif %}
+        </form>
+
+        {% if cliente %}
+            <p><a href="{{ url_for('opcoes_cadastro') }}">Opções sobre meu cadastro</a></p>
+        {% endif %}
+        <p><a href="{{ url_for('pagina_inicial') }}">Voltar ao início</a></p>
+    </div>
+    <!-- Liga o clique nos produtos ao indicador visual e ao campo de quantidade. -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

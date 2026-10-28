@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define a codificação de texto, o idioma e o ajuste para telas pequenas. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Texto que aparece na aba do navegador. -->
+    <title>HAMBURGUERIA REAL</title>
+    <!-- Carrega os estilos visuais da pasta static; v=4 ajuda a evitar CSS antigo em cache. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css', v=4) }}">
+
+    <!-- Carrega a mesma fonte decorativa usada no título da página inicial. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Righteous&family=Righteous:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Caixa principal que envolve o formulário de login. -->
+    <div class="pagina-inicial">
+        <!-- Título mostrado a quem já possui cadastro. -->
+        <h1>Que bom te ver de novo!</h1>
+
+        <!-- Ao enviar, o navegador manda o CPF para a função cliente() em app.py. -->
+        <form method="POST" action="/CLIENTE">
+            
+            <!-- Grupo que mantém o rótulo e a caixa de CPF alinhados. -->
+            <div class="input-group">
+                <label for="cpf">Seu CPF:</label>
+                
+                <!-- Container usado pelo CSS para fazer a caixa arredondada. -->
+                <div class="input-container">
+                    <!-- O navegador abre teclado numérico e limita a digitação a 14 caracteres. -->
+                    <!-- O nome "cpf" é a chave que o Flask usa para ler o campo enviado. -->
+                    <input type="text" id="cpf" name="cpf" class="user-input" placeholder="000.000.000-00" required inputmode="numeric" maxlength="14">
+                    <span class="input-icon">🆔</span>
+                </div>
+            </div>
+
+            <!-- Envia o CPF ao Flask para procurar o cadastro no banco. -->
+            <button type="submit" class="btn-cadastrar">Entrar</button>
+        </form>
+
+        <!-- Jinja só mostra a mensagem se a rota Flask enviou uma variável chamada erro. -->
+        {% if erro %}
+            <p>{{ erro }}</p>
+        {% endif %}
+
+        <!-- Volta à página inicial. -->
+        <a href="/">Voltar</a>
+    </div>
+</body>
+
+</html>

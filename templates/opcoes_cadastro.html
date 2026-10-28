@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define a codificação para exibir corretamente acentos e caracteres especiais. -->
+    <meta charset="UTF-8">
+    <!-- Ajusta o tamanho da página para celulares e tablets. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Define o texto que aparece na aba do navegador. -->
+    <title>Opções do cadastro - Hamburgueria Real</title>
+    <!-- Carrega os estilos visuais compartilhados pelo site. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+
+<body>
+    <!-- Centraliza o conteúdo e aplica o estilo das telas do site. -->
+    <div class="pagina-inicial">
+        <!-- Identifica a página de gerenciamento do cadastro. -->
+        <h1>Opções sobre o cadastro</h1>
+        <!-- Mostra o nome do cliente autenticado, enviado pela rota Flask. -->
+        <p>Cliente: {{ cliente.nome }}</p>
+
+        <!-- Exibe mensagens temporárias enviadas pela aplicação após uma ação. -->
+        {% with mensagens = get_flashed_messages() %}
+            {% if mensagens %}
+                <!-- Agrupa visualmente as mensagens de confirmação. -->
+                <div class="mensagem-sucesso">
+                    {% for mensagem in mensagens %}
+                        <!-- Mostra cada mensagem recebida do Flask. -->
+                        <p>{{ mensagem }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Formulário para atualizar o telefone do cliente conectado. -->
+        <h2>Alterar telefone</h2>
+        <form method="POST" action="{{ url_for('opcoes_cadastro') }}">
+            <!-- Informa à rota Flask qual ação deve executar. -->
+            <input type="hidden" name="acao" value="atualizar_telefone">
+            <!-- Confirma que a pessoa conhece o CPF do cadastro conectado. -->
+            <div class="input-group">
+                <!-- Associa o texto explicativo ao campo de CPF abaixo. -->
+                <label for="cpf-atualizar">CPF do cadastro:</label>
+                <div class="input-container">
+                    <!-- Campo para a pessoa informar o CPF, com teclado numérico em celulares. -->
+                    <input
+                        type="text"
+                        id="cpf-atualizar"
+                        name="cpf"
+                        class="user-input"
+                        inputmode="numeric"
+                        maxlength="14"
+                        placeholder="Digite seu CPF"
+                        required
+                    >
+                </div>
+            </div>
+            <!-- Agrupa o rótulo e o campo de telefone. -->
+            <div class="input-group">
+                <label for="telefone">Telefone:</label>
+                <div class="input-container">
+                    <!-- Envia o novo telefone; mantém o valor atual como sugestão. -->
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        class="user-input"
+                        maxlength="30"
+                        value="{{ cliente.telefone }}"
+                        required
+                    >
+                </div>
+            </div>
+            <!-- Envia o formulário para salvar a alteração do telefone. -->
+            <button type="submit" class="btn-cadastrar">Atualizar telefone</button>
+        </form>
+
+        <!-- Formulário separado para solicitar a exclusão do cadastro. -->
+        <h2>Excluir cadastro</h2>
+        <form method="POST" action="{{ url_for('opcoes_cadastro') }}">
+            <!-- Informa à rota Flask que a ação solicitada é excluir o cadastro. -->
+            <input type="hidden" name="acao" value="excluir_cadastro">
+            <!-- Confirma que a pessoa conhece o CPF do cadastro conectado. -->
+            <div class="input-group">
+                <!-- Associa o texto explicativo ao campo de CPF abaixo. -->
+                <label for="cpf-excluir">CPF do cadastro:</label>
+                <div class="input-container">
+                    <!-- Campo para a pessoa informar o CPF antes de solicitar a exclusão. -->
+                    <input
+                        type="text"
+                        id="cpf-excluir"
+                        name="cpf"
+                        class="user-input"
+                        inputmode="numeric"
+                        maxlength="14"
+                        placeholder="Digite seu CPF"
+                        required
+                    >
+                </div>
+            </div>
+            <!-- Exige uma confirmação explícita antes de enviar o pedido de exclusão. -->
+            <div class="input-group">
+                <label>
+                    <input type="checkbox" name="confirmar_exclusao" value="1" required>
+                    Confirmo a exclusão dos meus dados pessoais.
+                </label>
+            </div>
+            <!-- Envia o pedido de exclusão depois que a confirmação foi marcada. -->
+            <button type="submit" class="btn-cadastrar">Excluir cadastro</button>
+        </form>
+
+        <!-- Retorna à tela de montagem do pedido. -->
+        <p><a href="{{ url_for('comanda') }}">Voltar ao pedido</a></p>
+        <!-- Retorna à página inicial da hamburgueria. -->
+        <p><a href="{{ url_for('pagina_inicial') }}">Voltar ao início</a></p>
+    </div>
+</body>
+
+</html>

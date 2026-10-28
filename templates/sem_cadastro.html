@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define a codificação, o idioma e a adaptação da página para celular. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Nome que aparece na aba do navegador. -->
+    <title>HAMBURGUERIA REAL - Atendimento na Mesa</title>
+    <!-- Carrega os estilos visuais usados pelo site. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css', v=3) }}">
+    <!-- Carrega a mesma fonte decorativa usada no título da página inicial. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Righteous&family=Righteous:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="pagina-atendimento">
+    <!-- Área principal da tela de atendimento presencial. -->
+    <div class="pagina-inicial tela-atendimento">
+        <!-- Identifica a tela de chamada do garçom. -->
+        <h1>Atendimento Presencial</h1>
+
+        <!-- confirmado vem da rota Flask: antes do envio mostra o formulário; depois mostra a confirmação. -->
+        {% if not confirmado %}
+            <p>Por favor, informe o número da sua mesa:</p>
+
+            <!-- Envia a mesa escolhida para a função sem_cadastro() no Flask. -->
+            <form method="POST" action="/SEM_CADASTRO">
+                <div class="input-group">
+                    <label for="mesa">Número da Mesa:</label>
+                    <div class="input-container">
+                        <!-- O formulário envia o ID interno da mesa, que o Python usa para encontrá-la. -->
+                        <select id="mesa" name="mesa" class="user-input" required>
+                            <option value="">Selecione uma mesa livre</option>
+                            <!-- Cria uma opção para cada mesa livre fornecida pelo Flask. -->
+                            {% for mesa in mesas %}
+                                <option value="{{ mesa.id }}">Mesa {{ mesa.numero }} ({{ mesa.capacidade }} lugares)</option>
+                            {% endfor %}
+                        </select>
+                        <span class="input-icon">📍</span>
+                    </div>
+                </div>
+
+                <!-- Só oferece o botão se houver uma mesa disponível. -->
+                {% if mesas %}
+                    <button type="submit" class="btn-cadastrar">Registrar mesa e solicitar atendimento</button>
+                {% else %}
+                    <p>No momento, não há mesas livres.</p>
+                {% endif %}
+            </form>
+        <!-- Depois que o Flask registra a mesa, mostra a confirmação. -->
+        {% else %}
+            <div class="mensagem-sucesso">
+                <p>Mesa registrada para o atendimento presencial. Avise o garçom para que ele anote seu pedido.</p>
+            </div>
+        {% endif %}
+
+        <!-- Link para voltar à página inicial. -->
+        <a href="/">Voltar ao Início</a>
+    </div>
+</body>
+
+</html>

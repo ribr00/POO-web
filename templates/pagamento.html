@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define o idioma, a codificação do texto e a visualização em celulares. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Nome da página na aba do navegador. -->
+    <title>Pagamento - Hamburgueria Real</title>
+    <!-- Carrega os estilos do site. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+
+<body>
+    <!-- Caixa da página; as classes definem o visual geral e específico do pagamento. -->
+    <div class="pagina-inicial tela-pagamento">
+        <h1>Pagamento</h1>
+        {% if conta.pedido.mesa == "Para viagem" %}
+            <p class="subtitulo-pagina">Pedido para viagem</p>
+        {% else %}
+            <p class="subtitulo-pagina">Pedido da mesa {{ conta.pedido.mesa }}</p>
+        {% endif %}
+
+        <!-- Este quadro lista todos os produtos que fazem parte do pedido. -->
+        <div class="resumo-pedido">
+            <!-- Repete uma linha para cada produto e quantidade do pedido. -->
+            {% for item in conta.pedido.itens %}
+                <div class="linha-pedido">
+                    <!-- Mostra a quantidade e o nome do produto. -->
+                    <span>{{ item.quantidade }}x {{ item.produto.nome }}</span>
+                    <!-- Mostra o preço da linha: quantidade multiplicada pelo preço unitário. -->
+                    <strong>R$ {{ "%.2f"|format(item.quantidade * item.preco_unitario) }}</strong>
+                </div>
+            {% endfor %}
+            <!-- Mostra o total calculado no Python pela propriedade conta.total. -->
+            <div class="linha-total">
+                <span>Total</span>
+                <strong>R$ {{ "%.2f"|format(total) }}</strong>
+            </div>
+        </div>
+
+        <!-- A mensagem explica que esta versão registra, mas não processa, pagamentos reais. -->
+        <p class="texto-apoio">Selecione a forma de pagamento. Esta etapa apenas registra o pagamento no sistema de demonstração.</p>
+
+        <!-- POST envia a forma escolhida para a rota de pagamento no app.py. -->
+        <form method="POST" action="{{ url_for('pagamento', conta_id=conta.id) }}">
+            <div class="input-group">
+                <label for="forma_pagamento">Forma de pagamento:</label>
+                <div class="input-container">
+                    <!-- O value de cada opção é o código que o Python valida e grava. -->
+                    <select id="forma_pagamento" name="forma_pagamento" class="user-input" required>
+                        <option value="">Selecione</option>
+                        <option value="pix">Pix</option>
+                        <option value="debito">Cartão de débito</option>
+                        <option value="credito">Cartão de crédito</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Envia a escolha para registrar o pagamento e gerar o QR da saída. -->
+            <button type="submit" class="btn-cadastrar">Confirmar pagamento</button>
+        </form>
+    </div>
+</body>
+
+</html>

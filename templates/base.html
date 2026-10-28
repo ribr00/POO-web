@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define os dados básicos da página e informa ao navegador que o texto é português. -->
+    <meta charset="UTF-8">
+    <!-- Faz a página ajustar seu tamanho em celulares e tablets. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Texto que aparece na aba do navegador. -->
+    <title>HAMBURGUERIA REAL</title>
+
+    <!-- Pede ao Flask o endereço correto do arquivo CSS dentro da pasta static. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css', v=3) }}">
+
+    <!-- Abre conexão antecipada com o Google Fonts para carregar as fontes. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Carrega as fontes usadas no visual do site. -->
+    <link href="https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Righteous&family=Righteous:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+
+    <!-- Caixa principal que agrupa o conteúdo da tela inicial. -->
+    <div class="pagina-inicial tela-inicial">
+
+        <!-- O CSS define este h1 com a fonte decorativa Fascinate Inline. -->
+        <h1>HAMBURGUERIA REAL</h1>
+
+        <!-- Mensagem de boas-vindas. -->
+        <p>Bem-vindo(a) à Hamburgueria REAL!</p>
+
+        {% with mensagens = get_flashed_messages() %}
+            {% if mensagens %}
+                <div class="mensagem-sucesso">
+                    {% for mensagem in mensagens %}
+                        <p>{{ mensagem }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Grupo de opções; o CSS organiza estes links como botões. -->
+        <div class="botoes">
+
+            <!-- Abre a tela para entrar com um CPF já cadastrado. -->
+            <a href="/CLIENTE">
+                <button>Já tenho cadastro</button>
+            </a>
+
+            <!-- Abre o formulário para criar um cadastro. -->
+            <a href="/CADASTRAR">
+                <button>Primeiro acesso</button>
+            </a>
+
+            <!-- Abre a tela para escolher uma mesa e chamar o garçom. -->
+            <a href="/SEM_CADASTRO">
+                <button>Quero apenas pedir</button>
+            </a>
+
+            <!-- Permite montar um pedido online sem criar ou acessar um cadastro. -->
+            <a href="{{ url_for('comanda') }}">
+                <button>Fazer pedido sem cadastro</button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Carrega o JavaScript compartilhado; na comanda ele ativa a seleção visual dos produtos. -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

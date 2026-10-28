@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define o idioma, o texto em português e a adaptação para telas pequenas. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Nome exibido na aba do navegador do caixa. -->
+    <title>Atendimentos do Caixa - Hamburgueria Real</title>
+    <!-- Carrega o mesmo CSS do restante do site. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+
+<body>
+    <!-- Caixa central que contém os atendimentos presenciais. -->
+    <div class="pagina-inicial tela-caixa">
+        <h1>Atendimentos presenciais</h1>
+        <!-- Explica o que o caixa deve fazer depois de receber o pagamento. -->
+        <p class="texto-apoio">Depois de receber o pagamento, confirme a mesa para gerar o QR de saída.</p>
+
+        <!-- Cria um cartão para cada chamada presencial que aguarda o pagamento. -->
+        {% for atendimento in atendimentos %}
+            <div class="cartao-atendimento">
+                <div>
+                    <!-- Número da mesa e situação atual do atendimento. -->
+                    <h2>Mesa {{ atendimento.mesa.numero }}</h2>
+                    <p class="status-atendimento">{{ atendimento.status }}</p>
+                </div>
+                <!-- POST confirma pagamento e pede ao Python para criar o QR. -->
+                <form method="POST" action="{{ url_for('caixa_confirmar_pagamento', atendimento_id=atendimento.id) }}">
+                    <button type="submit" class="btn-cadastrar">Confirmar pagamento e gerar QR</button>
+                </form>
+            </div>
+        <!-- Se a lista estiver vazia, explica que não há pagamentos presenciais pendentes. -->
+        {% else %}
+            <p class="estado-vazio">Não há atendimentos presenciais aguardando pagamento.</p>
+        {% endfor %}
+
+        <!-- Envia POST para encerrar a sessão protegida do caixa. -->
+        <form method="POST" action="{{ url_for('caixa_sair') }}">
+            <button type="submit" class="btn-cadastrar btn-secundario">Sair do caixa</button>
+        </form>
+    </div>
+</body>
+
+</html>

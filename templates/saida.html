@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Define idioma, codificação e comportamento em telas pequenas. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Nome que aparece na aba do navegador. -->
+    <title>Saída - Hamburgueria Real</title>
+    <!-- Carrega o estilo usado na confirmação de saída. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+
+<body>
+    <!-- Caixa central com o resultado da leitura do QR. -->
+    <div class="pagina-inicial tela-saida">
+        <!-- Se o QR era válido, confirma a saída e que a mesa foi liberada. -->
+        {% if valido %}
+            <!-- Símbolo decorativo de confirmação; aria-hidden evita leitura desnecessária. -->
+            <div class="icone-saida" aria-hidden="true">✓</div>
+            <h1>Saída registrada</h1>
+            {% if mesa == "Para viagem" %}
+                <p class="texto-apoio">Saída do pedido para viagem registrada. Obrigado!</p>
+            {% else %}
+                <p class="texto-apoio">Mesa {{ mesa }} liberada. Obrigado pela visita!</p>
+            {% endif %}
+        <!-- Se o QR era falso, inválido ou já foi usado, avisa a pessoa. -->
+        {% else %}
+            <h1>QR inválido</h1>
+            <p class="texto-apoio">Este QR não é válido ou a saída já foi registrada.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
