@@ -8,7 +8,7 @@ Uma requisição normalmente percorre este caminho:
 import base64
 # Compara a senha do caixa de forma mais segura do que comparar textos diretamente.
 import hmac
-# Lê configurações secretas que serão definidas no Windows antes de iniciar o site.
+# Lê as configurações definidas no ambiente em que o site será executado.
 import os
 # Ajuda a retirar pontos, traços e espaços do CPF.
 import re
@@ -33,11 +33,15 @@ from models import AtendimentoMesa, Cliente, Conta, Mesa, Pedido, PedidoItem, Pr
 
 # Cria a aplicação Flask, que recebe as visitas do navegador.
 app = Flask(__name__)
-# Define que o banco é SQLite e que o arquivo fica na pasta instance do Flask.
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hamburgueria_real.db"
-# Usa uma chave do Windows; se não existir, gera uma temporária para esta execução.
+# Garante que a pasta persistente da aplicação exista antes de abrir o SQLite.
+os.makedirs(app.instance_path, exist_ok=True)
+# Permite usar outra URL de banco no servidor; por padrão, o SQLite fica em instance/.
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL", "sqlite:///hamburgueria_real.db"
+)
+# A chave deve ser definida no servidor; o valor aleatório mantém o uso local simples.
 app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32)
-# A senha do caixa fica fora do código, em uma variável de ambiente do Windows.
+# A senha do caixa fica fora do código, em uma variável de ambiente.
 app.config["CASHIER_PASSWORD"] = os.environ.get("CASHIER_PASSWORD")
 # Endereço público do site, usado para criar links que funcionem ao ler o QR.
 app.config["PUBLIC_BASE_URL"] = os.environ.get("PUBLIC_BASE_URL")

@@ -32,6 +32,9 @@
             Pagamento presencial registrado. Entregue este QR ao cliente para apresentar na saída.
         {% endif %}
         </p>
+        <p class="texto-apoio">
+            Na saída, leia este QR Code com a câmera do celular ou apresente-o ao leitor para registrar sua saída{% if mesa != "Para viagem" %} e liberar a mesa{% endif %}.
+        </p>
         <!-- Cada tipo de usuário recebe um link de retorno adequado ao seu fluxo. -->
         {% if online %}
             <a href="/">Voltar ao início</a>

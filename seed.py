@@ -90,5 +90,12 @@ if __name__ == "__main__":
     with app.app_context():
         # Insere ou atualiza os dados de exemplo.
         popular_banco()
-        # Confirma no terminal que o script terminou.
-        print("Produtos e clientes iniciais cadastrados.")
+        # Exibe o banco efetivamente usado e os registros visíveis pela aplicação.
+        print(f"Banco usado: {db.engine.url.database}")
+        print(
+            "Registros: "
+            f"{Produto.query.count()} produtos, "
+            f"{Cliente.query.count()} clientes, "
+            f"{Mesa.query.filter_by(ocupada=False).count()} mesas livres, "
+            f"{Mesa.query.filter_by(ocupada=True).count()} mesas ocupadas."
+        )
